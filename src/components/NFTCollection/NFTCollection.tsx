@@ -9,12 +9,21 @@ import {NFTCollectionDict, NFT} from '../../api/types';
 import { useNavigate } from 'react-router';
 
 export interface NFTCollectionProps {
+  /** Collection info */
   collection: NFTCollectionDict;
+  /** Collection Volume */
   collectionVolume: number;
+  /** First NFT to display in the card stack */
   firstNFT: NFT;
+  /** Controls if to hide the NFT card stack */
   hideNFT?: boolean
 }
 
+/**
+ * A collection info for NFTs
+ * @param {NFTCollectionProps} props
+ * @return {JSX.Element}
+ */
 export default function NFTCollection({
   collection,
   collectionVolume,
@@ -69,25 +78,10 @@ export interface NFTCollectionRenderProps {
   onCollectionPress: (event: GestureResponderEvent) => void
 }
 
-function openNFTCollectionSocialLink(url: string) {
-  Linking.canOpenURL(url).then((supported) => {
-    return Linking.openURL(url);
-  });
-}
-
-function openNFTCollectionEtherscan(contract: string) {
-  const ethscan_url = 'https://etherscan.io/address/';
-  Linking.canOpenURL(ethscan_url + contract).then((supported) => {
-    return Linking.openURL(ethscan_url + contract);
-  });
-}
-function openNFTCollectionSolscan(contract: string) {
-  const ethscan_url = 'https://solscan.io/token/';
-  Linking.canOpenURL(ethscan_url + contract).then((supported) => {
-    return Linking.openURL(ethscan_url + contract);
-  });
-}
-
+/**
+ * Rended collection card.
+ * @return {JSX.Element} returns render collection 
+ */
 export function NFTCollectionRender({
   collectionName,
   collectionDescription,
@@ -191,4 +185,24 @@ export function NFTCollectionRender({
       </View>
     </View>
   );
+}
+
+// Utility functions
+function openNFTCollectionSocialLink(url: string) {
+  Linking.canOpenURL(url).then((supported) => {
+    return Linking.openURL(url);
+  });
+}
+
+function openNFTCollectionEtherscan(contract: string) {
+  const ethscan_url = 'https://etherscan.io/address/';
+  Linking.canOpenURL(ethscan_url + contract).then((supported) => {
+    return Linking.openURL(ethscan_url + contract);
+  });
+}
+function openNFTCollectionSolscan(contract: string) {
+  const ethscan_url = 'https://solscan.io/token/';
+  Linking.canOpenURL(ethscan_url + contract).then((supported) => {
+    return Linking.openURL(ethscan_url + contract);
+  });
 }

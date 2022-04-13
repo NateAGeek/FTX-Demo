@@ -42,7 +42,7 @@ export default function NFTsPage() {
             }}>{'<'}</Text>
           )}
           <Text style={tw`font-bold text-lg`}>{page + 1}</Text>
-          {collections !== undefined && page * NFTPAGE_SIZE < collections?.result.count && (
+          {collections !== undefined && (page + 1) * NFTPAGE_SIZE < collections?.result.count && (
             <Text style={tw`font-bold text-lg ml-2`} onPress={() => {
               setPage(page + 1)
             }}>{'>'}</Text>

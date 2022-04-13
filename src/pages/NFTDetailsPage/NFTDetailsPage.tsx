@@ -19,7 +19,7 @@ interface LocationState {
 }
 
 /**
- * Renders the detials of the NFT
+ * Renders the details of the NFT
  * @return {JSX.Element} rendered nft details
  */
 export default function NFTDetailsPage() {

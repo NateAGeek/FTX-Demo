@@ -6,9 +6,13 @@ import tw from 'twrnc';
 import { NFT } from '../../api/types';
 
 export interface NFTCardProps {
+  /** NFT sent from the server */
   nft: NFT;
+  /** Collection stack, make the NFT look like a collection of stacked nfts */
   collectionStack?: boolean;
+  /** Hide details only shows the NFT, and not the title or price */
   hideDetails?: boolean;
+  /** handle an on press of the NFT card */
   onPress?: (event: GestureResponderEvent) => void;
 }
 
@@ -41,6 +45,11 @@ export interface NFTCardRenderProps {
   onPress?: (event: GestureResponderEvent) => void;
 }
 
+/**
+ * Render a NFT Card
+ * @param {NFTCardRenderProps} props
+ * @return {JSX.Element} rendered NFT card
+ */
 export function NFTCardRender({
   nftUri,
   nftName,

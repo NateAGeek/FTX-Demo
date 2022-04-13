@@ -5,9 +5,14 @@ import tw from 'twrnc';
 import { NFT } from '../../api/types';
 
 export interface NFTDetailsProps {
+  /** NFT sent back from the server */
   nft: NFT
 }
-
+/**
+ * Parses NFTs sent from the backend and properly passes the fields to the renderer
+ * @param {NFTDetailsProps} props props needed to render NFT Details
+ * @return {JSX.Element}
+ */
 export default function NFTDetails({
   nft
 }: NFTDetailsProps) {
@@ -26,7 +31,11 @@ export interface NFTDetailsRenderProps {
   nftCurrency: string; //'sol' | 'eth';
   nftAttributes: Record<string, string> | null;
 }
-
+/**
+ * Render component only for styling
+ * @param {NFTDetailsRenderProps} props needed to render the NFT Details
+ * @returns 
+ */
 export function NFTDetailsRender({
   nftName,
   nftPrice,

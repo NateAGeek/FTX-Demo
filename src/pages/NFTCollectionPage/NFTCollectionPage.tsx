@@ -8,15 +8,19 @@ import NFTCard from '../../components/NFTCard/NFTCard';
 import NFTCollection from '../../components/NFTCollection/NFTCollection';
 import PrimaryLayout from '../PrimaryLayout';
 
-
 const NFTCOLLECTIONPAGE_SIZE = 6;
 
+/** Shared location state */
 interface LocationState {
   collection: NFTCollectionDict;
   collectionVolume: number;
   firstNFT: NFT;
 }
 
+/**
+ * Renders the collection page. Giving a nice grid of all the NFTs in the collection
+ * @return {JSX.Element}
+ */
 export default function NFTCollectionPage() {
   const [page, setPage] = useState(0);
   const navigate = useNavigate();
@@ -58,7 +62,7 @@ export default function NFTCollectionPage() {
             }}>{'<'}</Text>
           )}
           <Text style={tw`font-bold text-lg`}>{page + 1}</Text>
-          {data !== undefined && page * NFTCOLLECTIONPAGE_SIZE < data?.result.count && (
+          {data !== undefined && (page + 1) * NFTCOLLECTIONPAGE_SIZE < data?.result.count && (
             <Text style={tw`font-bold text-lg ml-2`} onPress={() => {
               setPage(page + 1)
             }}>{'>'}</Text>
