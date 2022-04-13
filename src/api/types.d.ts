@@ -15,6 +15,14 @@ export interface FTXNFTCollectionsPageResponse {
   success: boolean
 }
 
+export interface FTXNFTsFilteredResponse {
+  result: {
+    nfts: NFT[];
+    count: number;
+  },
+  success: boolean
+}
+
 export interface NFTIssuer {
   id: number;
   time: string;

@@ -15,7 +15,7 @@ export default function NFTDetails({
   <NFTDetailsRender 
     nftName={nft.name}
     nftPrice={nft.auction?.bestBid}
-    nftCurrency={nft.quoteCurrency}
+    nftCurrency={nft.quoteCurrency.toLowerCase()}
     nftAttributes={nft.attributes}
   />);
 }
@@ -34,11 +34,11 @@ export function NFTDetailsRender({
   nftAttributes,
 }: NFTDetailsRenderProps) {
   return (
-    <View style={tw`flex-col p-4 shadow-md`}>
-      <Text style={tw`text-xl font-bold`}>{nftName}</Text>
+    <View style={tw`flex-col p-4 shadow-md bg-white`}>
+      <Text style={tw`text-2xl font-bold`}>{nftName}</Text>
       {nftPrice !== undefined && nftPrice !== null && (
         <View style={tw`flex-row items-center`}>
-          <Text style={tw`mr-1`}>{nftPrice}</Text>
+          <Text style={tw`mr-1`}>{nftPrice.toLocaleString()}</Text>
           <CryptoFontIcon name={nftCurrency}/>
         </View>
       )}

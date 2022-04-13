@@ -1,5 +1,3 @@
-const path = require('path');
-console.log("Loaded Webpack overrides");
 module.exports = {
   babel: {
     presets: ["@babel/preset-env", "@babel/preset-react"]

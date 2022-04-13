@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Text} from 'react-native';
+import {View, Image, Text, Pressable, GestureResponderEvent} from 'react-native';
 import CryptoFontIcon from '../../fonts/CryptoFont';
 import LinearGradient from 'react-native-linear-gradient';
 import tw from 'twrnc';
@@ -9,21 +9,24 @@ export interface NFTCardProps {
   nft: NFT;
   collectionStack?: boolean;
   hideDetails?: boolean;
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 export default function NFTCard({
   nft,
   collectionStack,
-  hideDetails
+  hideDetails,
+  onPress
 }: NFTCardProps) {
   return (
     <NFTCardRender
       nftUri={nft.imageUrl}
       nftName={nft.name}
       nftPrice={nft.auction?.bestBid}
-      nftCurrency={nft.quoteCurrency}
+      nftCurrency={nft.quoteCurrency.toLowerCase()}
       collectionStack={collectionStack}
       hideDetails={hideDetails}
+      onPress={onPress}
     />
   );
 }
@@ -33,8 +36,9 @@ export interface NFTCardRenderProps {
   nftName: string;
   nftCurrency: string;
   nftPrice: number | null | undefined;
-  collectionStack?: boolean,
-  hideDetails?: boolean
+  collectionStack?: boolean;
+  hideDetails?: boolean;
+  onPress?: (event: GestureResponderEvent) => void;
 }
 
 export function NFTCardRender({
@@ -43,10 +47,12 @@ export function NFTCardRender({
   nftCurrency,
   nftPrice,
   collectionStack = false,
-  hideDetails = false
+  hideDetails = false,
+  onPress
 }: NFTCardRenderProps) {
   return (
-  <View style={tw`m-2`}>
+    <Pressable onPress={onPress}>
+  <View style={tw`m-2 bg-white`}>
     {collectionStack && (
       <>
         <View style={[tw`absolute top-0 h-full aspect-square border-white border-2 rounded-lg shadow-lg`, {
@@ -81,13 +87,14 @@ export function NFTCardRender({
           <Text style={tw`text-white text-xs`}>{nftName}</Text>
           {nftPrice !== undefined && nftPrice !== null && (
             <View style={tw`flex-row items-center`}>
-              <Text style={tw`text-[8px] text-white mr-1`}>1.23</Text>
-              <CryptoFontIcon style={tw`text-white text-[8px]`} name={nftCurrency}/>
+              <Text style={tw` text-white mr-1`}>1.23</Text>
+              <CryptoFontIcon style={tw`text-white`} name={nftCurrency}/>
             </View>
           )}
         </LinearGradient>
       )}
     </View>
   </View>
+  </Pressable>
   );
 }

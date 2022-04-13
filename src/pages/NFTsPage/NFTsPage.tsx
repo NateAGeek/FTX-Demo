@@ -5,33 +5,44 @@ import { useNFTCollections } from '../../api/hooks/useNFTCollections';
 import NFTCollection from '../../components/NFTCollection/NFTCollection';
 import PrimaryLayout from '../PrimaryLayout';
 
-export interface NFTsPageProps {
+const NFTPAGE_SIZE = 5;
 
-}
-
-export default function NFTsPage(props: NFTsPageProps) {
-  console.log(props);
+export default function NFTsPage() {
   const [page, setPage] = useState(0);
-  const {data} = useNFTCollections(page);
+  const {data: collections} = useNFTCollections(page, NFTPAGE_SIZE);
 
   return (
     <PrimaryLayout>
-    <View style={tw`flex-6`}>
-      {data !== undefined &&(
-        <View>
-          {data.result.collections.map((collection) => {
-            if(collection.collectionDict === undefined) {
-              return <></>
-            }
-            return (<NFTCollection
-              collection={collection.collectionDict}
-              collectionVolume={collection.volume}
-              firstNFT={collection.first_nft}
-            />)
-          })}
-        </View>
-      )}
-    </View>
+        {collections === undefined && (
+          <Text>Loading in collections</Text>
+        )}
+        {collections !== undefined && collections.result.collections.map((collection, i) => {
+          if(collection.collectionDict === undefined) {
+            return <></>
+          }
+          return (
+            <View style={tw`mb-4`} key={'nft_collection_' + i}>
+              <NFTCollection
+                collection={collection.collectionDict}
+                collectionVolume={collection.volume}
+                firstNFT={collection.first_nft}
+              />
+            </View>
+          )
+        })}
+      <View style={tw`flex-row my-6 self-center`}>
+          {page !== 0 && (
+            <Text style={tw`font-bold text-lg mr-2`} onPress={() => {
+              setPage(page - 1)
+            }}>{'<'}</Text>
+          )}
+          <Text style={tw`font-bold text-lg`}>{page + 1}</Text>
+          {collections !== undefined && page * NFTPAGE_SIZE < data?.result.count && (
+            <Text style={tw`font-bold text-lg ml-2`} onPress={() => {
+              setPage(page + 1)
+            }}>{'>'}</Text>
+          )}
+      </View>
     </PrimaryLayout>
   );
 }

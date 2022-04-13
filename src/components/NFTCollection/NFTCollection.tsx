@@ -1,11 +1,12 @@
 import React from 'react';
-import {View, Image, Text, Linking} from 'react-native';
+import {View, Image, Text, Linking, GestureResponderEvent, Pressable} from 'react-native';
 import tw from 'twrnc';
 import {NFTCardRender} from '../NFTCard/NFTCard';
 import CryptoFontIcon from '../../fonts/CryptoFont';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import OcticonsIcons from 'react-native-vector-icons/Octicons';
 import {NFTCollectionDict, NFT} from '../../api/types';
+import { useNavigate } from 'react-router';
 
 export interface NFTCollectionProps {
   collection: NFTCollectionDict;
@@ -20,6 +21,7 @@ export default function NFTCollection({
   firstNFT,
   hideNFT,
 }: NFTCollectionProps) {
+  let navigate = useNavigate();
   return (
     <NFTCollectionRender
       collectionName={collection.name}
@@ -36,6 +38,15 @@ export default function NFTCollection({
       discord={collection.discordUrl}
       website={collection.homepageUrl}
       hideNFT={hideNFT}
+      onCollectionPress={() => {
+        navigate(`/${encodeURIComponent(collection.name)}`, {
+          state: {
+            collection,
+            collectionVolume,
+            firstNFT
+          }
+        })
+      }}
     />
   );
 }
@@ -54,12 +65,26 @@ export interface NFTCollectionRenderProps {
   twitter: string | null,
   discord: string | null,
   website: string | null,
-  hideNFT?: boolean
+  hideNFT?: boolean,
+  onCollectionPress: (event: GestureResponderEvent) => void
 }
 
 function openNFTCollectionSocialLink(url: string) {
   Linking.canOpenURL(url).then((supported) => {
     return Linking.openURL(url);
+  });
+}
+
+function openNFTCollectionEtherscan(contract: string) {
+  const ethscan_url = 'https://etherscan.io/address/';
+  Linking.canOpenURL(ethscan_url + contract).then((supported) => {
+    return Linking.openURL(ethscan_url + contract);
+  });
+}
+function openNFTCollectionSolscan(contract: string) {
+  const ethscan_url = 'https://solscan.io/token/';
+  Linking.canOpenURL(ethscan_url + contract).then((supported) => {
+    return Linking.openURL(ethscan_url + contract);
   });
 }
 
@@ -69,6 +94,7 @@ export function NFTCollectionRender({
   collectionBannerUri,
   collectionIconUri,
   collectionVolume,
+  contractAddress,
   collectionCurrency,
   firstNFTUri,
   firstNFTName,
@@ -76,10 +102,11 @@ export function NFTCollectionRender({
   twitter,
   discord,
   website,
-  hideNFT = false
+  hideNFT = false,
+  onCollectionPress
 }: NFTCollectionRenderProps) {
   return (
-    <View style={tw`flex-col shadow-md`}>
+    <View style={tw`flex-col shadow-md bg-white`}>
       <View style={tw`w-full`}>
         {collectionBannerUri !== null && (
           <Image style={tw`h-[148px]`} source={{uri: collectionBannerUri}}/>
@@ -96,6 +123,7 @@ export function NFTCollectionRender({
           )}
           {!hideNFT && (
             <View style={tw`w-36`}>
+              <Pressable onPress={onCollectionPress} disabled={hideNFT}>
               <NFTCardRender
                 nftName={firstNFTName}
                 nftCurrency={collectionCurrency}
@@ -103,19 +131,34 @@ export function NFTCollectionRender({
                 nftUri={firstNFTUri}
                 collectionStack={true}
               />
+              </Pressable>
             </View>
           )}
       </View>
       <View style={tw`p-2 md:pt-2 ${hideNFT ? 'pt-0' : 'pt-8'}`}>
         <View style={tw`mb-2 items-center ${hideNFT ? '' : 'md:items-start md:ml-32'}`}>
-          <Text style={tw`text-lg font-extrabold`}>{collectionName}</Text>
-          <Text style={tw`text-xs text-gray-800`}>{'View on Etherscan'} <OcticonsIcons name='link-external'/></Text>
+          <Text onPress={onCollectionPress} style={tw`text-lg font-extrabold`}>{collectionName}</Text>
+          {contractAddress !== null && (collectionCurrency === 'eth' || collectionCurrency === 'sol') ? (
+            <Text
+              onPress={() => {
+                if(collectionCurrency === 'eth') {
+                  openNFTCollectionEtherscan(contractAddress);
+                } else if (collectionCurrency === 'sol') {
+                  openNFTCollectionSolscan(contractAddress);
+                }
+              }}
+              style={tw`text-xs text-gray-800`}>
+                {`View on ${collectionCurrency === 'eth' ? 'Etherscan' : 'Solscan'}`} <OcticonsIcons name='link-external'/>
+            </Text>
+          ) : (
+            <Text style={tw`text-xs text-gray-800`}>Contract off chain</Text>
+          )}
         </View>
         <Text style={tw`mb-2`}>{collectionDescription}</Text>
         <View style={tw`flex-row justify-between`}>
           {(website !== null || discord !== null || website !== null) && (
             <View style={tw`flex-row items-center`}>
-              <Text style={tw`text-xs`}>Socials:</Text>
+              <Text style={tw`text-sm mr-1`}>Socials:</Text>
               {twitter !== null && (
                 <MaterialCommunityIcons
                   onPress={() => {openNFTCollectionSocialLink(twitter)}}
@@ -140,8 +183,8 @@ export function NFTCollectionRender({
             </View>
           )}
           <View style={tw`flex-row items-center`}>
-            <Text style={tw`text-xs`}>Volume:</Text>
-            <Text style={tw`text-xs`}>{collectionVolume}</Text>
+            <Text style={tw`text-base mr-1`}>Volume:</Text>
+            <Text style={tw`text-base mr-1`}>{collectionVolume.toLocaleString()}</Text>
             <CryptoFontIcon size={12} name={collectionCurrency}/>
           </View>
         </View>
