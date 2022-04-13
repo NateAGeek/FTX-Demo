@@ -27,8 +27,7 @@ export default function NFTCollectionPage() {
   
   let {data} = useNFTSingleCollection(page, NFTCOLLECTIONPAGE_SIZE, {
     collection: nftCollection
-  })
-  console.log(data);
+  });
   return (
     <PrimaryLayout>
       <NFTCollection

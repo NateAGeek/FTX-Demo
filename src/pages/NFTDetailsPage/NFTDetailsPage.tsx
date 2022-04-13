@@ -10,12 +10,19 @@ import NFTDetails from '../../components/NFTDetails/NFTDetails';
 import { useNFTSingleCollection } from '../../api/hooks/useNFTSingleCollection';
 
 interface LocationState {
+  /** NFT for the details to get info from */
   nft: NFT,
+  /** Collection info to get the collection details from */
   collection: NFTCollectionDict;
+  /** Collection volume used for the details component */
   collectionVolume: number;
 }
 
-export default function NFTDetailsPage(props: any) {
+/**
+ * Renders the detials of the NFT
+ * @return {JSX.Element} rendered nft details
+ */
+export default function NFTDetailsPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const state = location.state as LocationState;

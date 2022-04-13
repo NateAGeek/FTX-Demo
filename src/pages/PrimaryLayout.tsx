@@ -4,9 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import tw from 'twrnc';
 
 export interface PrimaryLayoutProps {
+  /** Children to render in the primary interface */
   children?: React.ReactNode;
 }
 
+/**
+ * Provides a basic wrapper interface with the head navigation.
+ * 
+ * @param {PrimaryLayoutProps} props 
+ * @return {JSX.Element} rendered content in the primary layout
+ */
 export default function PrimaryLayout({
   children
 }: PrimaryLayoutProps) {

@@ -7,6 +7,11 @@ import PrimaryLayout from '../PrimaryLayout';
 
 const NFTPAGE_SIZE = 5;
 
+/**
+ * The root of the application. Renders the all the collections from FTX 
+ * 
+ * @return {JSX.Element} rendered collections
+ */
 export default function NFTsPage() {
   const [page, setPage] = useState(0);
   const {data: collections} = useNFTCollections(page, NFTPAGE_SIZE);
@@ -37,7 +42,7 @@ export default function NFTsPage() {
             }}>{'<'}</Text>
           )}
           <Text style={tw`font-bold text-lg`}>{page + 1}</Text>
-          {collections !== undefined && page * NFTPAGE_SIZE < data?.result.count && (
+          {collections !== undefined && page * NFTPAGE_SIZE < collections?.result.count && (
             <Text style={tw`font-bold text-lg ml-2`} onPress={() => {
               setPage(page + 1)
             }}>{'>'}</Text>
