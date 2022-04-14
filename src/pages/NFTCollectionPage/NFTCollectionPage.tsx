@@ -27,7 +27,6 @@ export default function NFTCollectionPage() {
   let { nftCollection } = useParams();
   const location = useLocation();
   const state = location.state as LocationState;
-  console.log("state", state);
   
   let {data} = useNFTSingleCollection(page, NFTCOLLECTIONPAGE_SIZE, {
     collection: nftCollection
@@ -57,13 +56,13 @@ export default function NFTCollectionPage() {
       </View>
       <View style={tw`flex-row my-6 self-center`}>
           {page !== 0 && (
-            <Text style={tw`font-bold text-lg mr-2`} onPress={() => {
+            <Text style={tw`font-bold text-2xl mr-2`} onPress={() => {
               setPage(page - 1)
             }}>{'<'}</Text>
           )}
-          <Text style={tw`font-bold text-lg`}>{page + 1}</Text>
+          <Text style={tw`font-bold text-2xl`}>{page + 1}</Text>
           {data !== undefined && (page + 1) * NFTCOLLECTIONPAGE_SIZE < data?.result.count && (
-            <Text style={tw`font-bold text-lg ml-2`} onPress={() => {
+            <Text style={tw`font-bold text-2xl ml-2`} onPress={() => {
               setPage(page + 1)
             }}>{'>'}</Text>
           )}

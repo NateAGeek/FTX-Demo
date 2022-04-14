@@ -37,13 +37,13 @@ export default function NFTsPage() {
         })}
       <View style={tw`flex-row my-6 self-center`}>
           {page !== 0 && (
-            <Text style={tw`font-bold text-lg mr-2`} onPress={() => {
+            <Text style={tw`font-bold text-2xl mr-2`} onPress={() => {
               setPage(page - 1)
             }}>{'<'}</Text>
           )}
-          <Text style={tw`font-bold text-lg`}>{page + 1}</Text>
+          <Text style={tw`font-bold text-2xl`}>{page + 1}</Text>
           {collections !== undefined && (page + 1) * NFTPAGE_SIZE < collections?.result.count && (
-            <Text style={tw`font-bold text-lg ml-2`} onPress={() => {
+            <Text style={tw`font-bold text-2xl ml-2`} onPress={() => {
               setPage(page + 1)
             }}>{'>'}</Text>
           )}

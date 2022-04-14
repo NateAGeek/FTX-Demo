@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Image, Text, Linking, GestureResponderEvent, Pressable} from 'react-native';
+import {View, Image, Text, Linking, GestureResponderEvent} from 'react-native';
 import tw from 'twrnc';
 import {NFTCardRender} from '../NFTCard/NFTCard';
 import CryptoFontIcon from '../../fonts/CryptoFont';
@@ -117,15 +117,14 @@ export function NFTCollectionRender({
           )}
           {!hideNFT && (
             <View style={tw`w-36`}>
-              <Pressable onPress={onCollectionPress} disabled={hideNFT}>
               <NFTCardRender
                 nftName={firstNFTName}
                 nftCurrency={collectionCurrency}
                 nftPrice={firstNFTPrice}
                 nftUri={firstNFTUri}
                 collectionStack={true}
+                onPress={onCollectionPress}
               />
-              </Pressable>
             </View>
           )}
       </View>
