@@ -19,6 +19,7 @@ export interface FTXNFTsFilteredResponse {
   result: {
     nfts: NFT[];
     count: number;
+    total: number;
   },
   success: boolean
 }

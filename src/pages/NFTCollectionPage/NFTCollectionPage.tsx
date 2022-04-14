@@ -61,7 +61,7 @@ export default function NFTCollectionPage() {
             }}>{'<'}</Text>
           )}
           <Text style={tw`font-bold text-2xl`}>{page + 1}</Text>
-          {data !== undefined && (page + 1) * NFTCOLLECTIONPAGE_SIZE < data?.result.count && (
+          {data !== undefined && (page + 1) * NFTCOLLECTIONPAGE_SIZE < data?.result.total && (
             <Text style={tw`font-bold text-2xl ml-2`} onPress={() => {
               setPage(page + 1)
             }}>{'>'}</Text>
