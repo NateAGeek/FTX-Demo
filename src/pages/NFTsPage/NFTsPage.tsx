@@ -19,7 +19,7 @@ export default function NFTsPage() {
   return (
     <PrimaryLayout>
         {collections === undefined && (
-          <Text>Loading in collections</Text>
+          <Text style={tw` justify-center text-xl`}>Loading in collections</Text>
         )}
         {collections !== undefined && collections.result.collections.map((collection, i) => {
           if(collection.collectionDict === undefined) {
